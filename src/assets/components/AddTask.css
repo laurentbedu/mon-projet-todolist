@@ -5,6 +5,7 @@
 .addtask-container input {
   height: 50px;
   width: 50vw;
+  max-width: 600px;
   padding: 5px 15px;
   margin-right: 10px;
   border-radius: 10px;
