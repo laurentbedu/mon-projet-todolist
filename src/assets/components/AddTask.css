@@ -20,6 +20,7 @@
 .addtask-container input:focus {
   color: #222;
   border: 1px solid #4232f1;
+  outline: none;
 }
 
 .addtask-container button {
