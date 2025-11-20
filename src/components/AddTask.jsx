@@ -1,7 +1,8 @@
 import "./AddTask.css";
 
 function AddTask({ handleClick_AddTask }) {
-  const handleClick = () => {
+  // Add new task
+  const handleClickAddTask = () => {
     const txtBoxAddTask = document.querySelector(`#txtBoxAddTask`);
     if (txtBoxAddTask !== null && txtBoxAddTask.value !== "") {
       handleClick_AddTask(txtBoxAddTask.value)
@@ -18,10 +19,10 @@ function AddTask({ handleClick_AddTask }) {
         id="txtBoxAddTask"
         placeholder="Ajouter une nouvelle tâche..."
       />
-      <button className="buttonLg" onClick={handleClick}>
+      <button className="buttonLg" onClick={handleClickAddTask}>
         Ajouter
       </button>
-      <button className="buttonSm" onClick={handleClick}>
+      <button className="buttonSm" onClick={handleClickAddTask}>
         +
       </button>
     </div>

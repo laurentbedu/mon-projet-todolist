@@ -63,3 +63,9 @@
 .task-item button:focus {
   outline: none;
 }
+
+.task-item label.taskDone {
+  font-style: italic;
+  text-decoration: line-through;
+  color: #999;
+}
