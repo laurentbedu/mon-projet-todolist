@@ -1,11 +1,11 @@
 import "./EmptyTask.css";
 
-function EmptyTask() {
+function EmptyTask({ title, message }) {
   return (
     <div className="emptyTaskList">
       <img src="/assets/img/task.jpg" alt="Aucune tâche" />
-      <h2>Aucune tâche pour le moment</h2>
-      <p>Ajoutez votre première tâche ci-dessus !</p>
+      <h2>{title}</h2>
+      <p>{message}</p>
     </div>
   );
 }

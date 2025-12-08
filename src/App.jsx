@@ -4,13 +4,14 @@ import AddTask from "./components/AddTask";
 import Header from "./components/Header";
 import TaskItem from "./components/TaskItem";
 import EmptyTask from "./components/EmptyTask";
+import FilterTask from "./components/FilterTask";
 
 function App() {
   // Main TaskList
-  const tasksList_StorageName = "TodoList";
+  const tasksList_StorageList = "TodoList";
   const [tasksList, setTaskList] = useState(() => {
     // Search the localStorage for a saved list
-    const savedList = localStorage.getItem(tasksList_StorageName);
+    const savedList = localStorage.getItem(tasksList_StorageList);
     if (savedList === null) {
       return [];
     } else {
@@ -18,10 +19,30 @@ function App() {
     }
   });
 
-  // useEffect: est un hook, qui ecoute les changements (renders) effectués sur toute la page ou sur une variable useState
+  const tasksList_StorageFilter = "TodoListFilter";
+  const [currentFilter, setCurrentFilter] = useState(() => {
+    // Search the localStorage for a saved list
+    const savedFilter = localStorage.getItem(tasksList_StorageFilter);
+    if (savedFilter === null) {
+      return "all";
+    } else {
+      return savedFilter;
+    }
+  });
+
+  const filteredTasksList = tasksList.filter((task) => {
+    if (currentFilter === "terminée") return !task.status;
+    if (currentFilter === "à faire") return task.status;
+    return true;
+  });
+
+  // REMINDER useEffect: est un hook, qui ecoute les changements (renders) effectués sur toute la page ou sur une variable useState
   useEffect(() => {
-    localStorage.setItem(tasksList_StorageName, JSON.stringify(tasksList));
+    localStorage.setItem(tasksList_StorageList, JSON.stringify(tasksList));
   }, [tasksList]);
+  useEffect(() => {
+    localStorage.setItem(tasksList_StorageFilter, currentFilter);
+  }, [currentFilter]);
   /**
    *
    * @param {Array} list with key "id"
@@ -93,22 +114,59 @@ function App() {
     }
   };
 
-  return (
-    <>
-      <Header />
-      <AddTask handleClick_AddTask={taskList_AddTask} />
-      {tasksList.length === 0 ? (
-        <EmptyTask />
-      ) : (
-        tasksList.map((task) => (
+  const taskList_FlterTasks = (filter) => {
+    setCurrentFilter(filter);
+  };
+
+  // display manager
+  let taskListDisplay = (
+    <EmptyTask
+      title={`Aucune tâche pour le moment`}
+      message={`Ajoutez votre première tâche ci-dessus !`}
+    />
+  );
+
+  if (tasksList.length > 0 && filteredTasksList.length === 0) {
+    taskListDisplay = (
+      <>
+        {console.log("Filter> " + currentFilter)}
+        <FilterTask
+          taskList={tasksList}
+          currentFilter={currentFilter}
+          eventHandler={taskList_FlterTasks}
+        />
+        <EmptyTask
+          title={`Aucune tâche ${currentFilter}`}
+          message="Essayez un autre filtre ci-dessus !"
+        />
+      </>
+    );
+  } else if (filteredTasksList.length > 0) {
+    taskListDisplay = (
+      <>
+        {console.log("Filter> " + currentFilter)}
+        <FilterTask
+          taskList={tasksList}
+          currentFilter={currentFilter}
+          eventHandler={taskList_FlterTasks}
+        />
+        {filteredTasksList.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
             hundleOnTaskDelete={taskList_DeleteTask}
             hundleOnTaskCheck={taskList_CheckTask}
           />
-        ))
-      )}
+        ))}
+      </>
+    );
+  }
+  return (
+    <>
+      <Header />
+      <AddTask handleClick_AddTask={taskList_AddTask} />
+
+      {taskListDisplay}
     </>
   );
 }
