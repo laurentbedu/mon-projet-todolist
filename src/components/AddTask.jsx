@@ -1,12 +1,14 @@
+import { useState } from "react";
 import "./AddTask.css";
 
 function AddTask({ handleClick_AddTask }) {
+  const [inputValue, setInputValue] = useState("");
+
   // Add new task
   const handleClickAddTask = () => {
-    const txtBoxAddTask = document.querySelector(`#txtBoxAddTask`);
-    if (txtBoxAddTask !== null && txtBoxAddTask.value !== "") {
-      handleClick_AddTask(txtBoxAddTask.value)
-        ? (txtBoxAddTask.value = "")
+    if (inputValue !== null && inputValue !== "") {
+      handleClick_AddTask(inputValue)
+        ? setInputValue("")
         : alert(
             "Une erreur est detectée lors de l'ajour de la nouvelle tâche."
           );
@@ -16,6 +18,11 @@ function AddTask({ handleClick_AddTask }) {
     <div className="addtask-container">
       <input
         type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleClickAddTask();
+        }}
         id="txtBoxAddTask"
         placeholder="Ajouter une nouvelle tâche..."
       />
