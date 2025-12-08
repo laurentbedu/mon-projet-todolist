@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import TaskItem from "./components/TaskItem";
 import EmptyTask from "./components/EmptyTask";
 import FilterTask from "./components/FilterTask";
+import ProgressBar from "./components/ProgressBar";
 
 function App() {
   // Main TaskList
@@ -35,6 +36,9 @@ function App() {
     if (currentFilter === "à faire") return task.status;
     return true;
   });
+
+  const totalTasks = tasksList.length;
+  const doneTasks = tasksList.filter((task) => task.status === false).length;
 
   // REMINDER useEffect: est un hook, qui ecoute les changements (renders) effectués sur toute la page ou sur une variable useState
   useEffect(() => {
@@ -161,9 +165,13 @@ function App() {
       </>
     );
   }
+
   return (
     <>
       <Header />
+      {tasksList.length > 0 && (
+        <ProgressBar totalTasks={totalTasks} doneTasks={doneTasks} />
+      )}
       <AddTask handleClick_AddTask={taskList_AddTask} />
 
       {taskListDisplay}
