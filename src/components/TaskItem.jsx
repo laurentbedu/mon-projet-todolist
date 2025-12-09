@@ -13,6 +13,8 @@ function TaskItem({
     if (taskEditing) {
       setTaskName(task.name);
       setTaskEditing(false);
+
+      document.querySelector(".edit-btn").innerHTML = "✏️";
     } else {
       handleOnTaskDelete(task.id);
     }
@@ -52,7 +54,10 @@ function TaskItem({
     />
   );
   return (
-    <div className="task-item" id={`task${task.id}`}>
+    <div
+      className={taskEditing ? "task-item editing" : "task-item"}
+      id={`task${task.id}`}
+    >
       <input
         type="checkbox"
         name=""

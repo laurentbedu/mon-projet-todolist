@@ -1,12 +1,20 @@
 .task-item {
-  border: 1px solid transparent;
-  margin: 20px;
+  border: 2px solid transparent;
+  margin: 10px;
   padding: 20px;
   display: flex;
   border-radius: 10px;
 }
+.task-item.editing {
+  background-color: rgba(255, 255, 0, 0.24);
+  border: 2px solid rgb(214, 214, 0);
+}
 .task-item:hover {
-  border: 1px solid #447ffd;
+  border: 2px solid #447ffd;
+}
+
+.task-item.editing:hover {
+  border: 2px solid rgb(199, 199, 0);
 }
 .task-item input[type="checkbox"] {
   top: 12px;
@@ -47,6 +55,8 @@
   font-size: large;
   padding: 5px;
   flex: 1;
+  border: 2px solid rgb(212, 209, 0);
+  border-radius: 5px;
 }
 
 .task-item button {
