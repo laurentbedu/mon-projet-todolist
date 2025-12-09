@@ -1,23 +1,77 @@
+import { useState } from "react";
 import "./TaskItem.css";
 
-function TaskItem({ task = null, hundleOnTaskDelete, hundleOnTaskCheck }) {
-  const hundle_OnTaskDelete = () => {
-    hundleOnTaskDelete(task.id);
+function TaskItem({
+  task = null,
+  handleOnTaskDelete,
+  handleOnTaskCheck,
+  handleOnTaskEdit,
+}) {
+  const [taskEditing, setTaskEditing] = useState(false);
+  const [taskName, setTaskName] = useState(task.name);
+  const handle_OnTaskDelete = () => {
+    if (taskEditing) {
+      setTaskName(task.name);
+      setTaskEditing(false);
+    } else {
+      handleOnTaskDelete(task.id);
+    }
   };
-  const hundle_OnTaskCheck = () => {
-    hundleOnTaskCheck(task.id);
+  const handle_OnTaskCheck = () => {
+    handleOnTaskCheck(task.id);
   };
+
+  const taskEditingHandler = (event) => {
+    const taskId = Number(event.target.dataset.task);
+
+    if (taskEditing) {
+      const editingDone = handleOnTaskEdit(taskId, taskName);
+      if (editingDone) {
+        event.target.innerHTML = "✏️";
+        setTaskEditing(false);
+      }
+    } else {
+      event.target.innerHTML = "✓";
+      setTaskEditing(true);
+    }
+  };
+
+  let taskForm = !taskEditing ? (
+    <label className={!task.status ? `taskDone` : ""}>{taskName}</label>
+  ) : (
+    <input
+      type="text"
+      name=""
+      id=""
+      data-task={task.id}
+      value={taskName}
+      onChange={(event) => setTaskName(event.target.value)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") taskEditingHandler(event);
+      }}
+    />
+  );
   return (
     <div className="task-item" id={`task${task.id}`}>
       <input
         type="checkbox"
         name=""
         id={`taskChk${task.id}`}
-        onChange={hundle_OnTaskCheck}
+        onChange={handle_OnTaskCheck}
         checked={!task.status}
       />
-      <label className={!task.status ? `taskDone` : ""}>{task.name}</label>
-      <button type="button" onClick={hundle_OnTaskDelete}>
+
+      {taskForm}
+
+      <button
+        type="button"
+        className="edit-btn"
+        data-task={task.id}
+        onClick={(event) => taskEditingHandler(event)}
+      >
+        ✏️
+      </button>
+      <button type="button" onClick={handle_OnTaskDelete}>
         ✕
       </button>
     </div>

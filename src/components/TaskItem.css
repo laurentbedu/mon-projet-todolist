@@ -41,6 +41,13 @@
   margin-top: 5px;
   font-size: large;
 }
+.task-item input[type="text"] {
+  margin-top: -4px;
+  height: 40px;
+  font-size: large;
+  padding: 5px;
+  flex: 1;
+}
 
 .task-item button {
   margin-top: -5px;
@@ -68,4 +75,22 @@
   font-style: italic;
   text-decoration: line-through;
   color: #999;
+}
+
+.task-item .edit-btn {
+  color: green;
+  margin-top: -5px;
+  font-weight: bold;
+  height: 40px;
+  padding: 5px 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.task-item .edit-btn:hover {
+  background-color: #dddddd;
+  color: green;
 }

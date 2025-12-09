@@ -19,9 +19,9 @@ function AddTask({ handleClick_AddTask }) {
       <input
         type="text"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleClickAddTask();
+        onChange={(event) => setInputValue(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") handleClickAddTask();
         }}
         id="txtBoxAddTask"
         placeholder="Ajouter une nouvelle tâche..."

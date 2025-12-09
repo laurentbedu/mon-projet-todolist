@@ -100,6 +100,27 @@ function App() {
   };
 
   /**
+   * EditTask Function
+   * @param {Int} taskIdToEdit
+   * @returns {boolean}
+   */
+  const taskList_EditTask = (taskIdToEdit, newValue) => {
+    if (tasksList.length !== 0) {
+      const newTaskList = tasksList.map((task) => {
+        if (task.id === taskIdToEdit) {
+          return { ...task, name: newValue };
+        }
+        return task;
+      });
+
+      setTaskList(newTaskList);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  /**
    * CheckTask Function
    * @param {Int} taskIdToDelete
    * @returns {boolean}
@@ -158,8 +179,9 @@ function App() {
           <TaskItem
             key={task.id}
             task={task}
-            hundleOnTaskDelete={taskList_DeleteTask}
-            hundleOnTaskCheck={taskList_CheckTask}
+            handleOnTaskDelete={taskList_DeleteTask}
+            handleOnTaskEdit={taskList_EditTask}
+            handleOnTaskCheck={taskList_CheckTask}
           />
         ))}
       </>
