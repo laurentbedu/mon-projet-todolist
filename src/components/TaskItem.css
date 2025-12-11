@@ -69,10 +69,10 @@
   margin-right: 5px;
   border-radius: 10px;
   border: none;
-  font-size: large;
+  font-size: medium;
   cursor: pointer;
 }
-.task-item button:hover {
+.task-item .delete-btn:hover {
   background-color: #fd4463;
   color: white;
 }
@@ -88,7 +88,7 @@
 }
 
 .task-item .edit-btn {
-  color: green;
+  color: rgb(255, 166, 0);
   margin-top: -5px;
   font-weight: bold;
   height: 40px;
@@ -102,5 +102,24 @@
 
 .task-item .edit-btn:hover {
   background-color: #dddddd;
-  color: green;
+  color: rgb(255, 166, 0);
+}
+
+@media screen and (max-width: 475px) {
+  .task-item .edit-btn::before {
+    font-size: 20px;
+  }
+
+  .task-item .delete-btn {
+    font-size: 0;
+    position: relative;
+  }
+
+  .task-item .delete-btn::before {
+    content: "✕";
+    font-size: 22px;
+  }
+  .task-item input[type="text"] {
+    max-width: 95px;
+  }
 }

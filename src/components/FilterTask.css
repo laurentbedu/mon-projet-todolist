@@ -26,3 +26,13 @@ div.filters button.active {
   background-color: #447ffd;
   border: 1px solid #cccccc;
 }
+
+@media screen and (max-width: 475px) {
+  div.filters button {
+    padding: 0px;
+    margin-right: 0px;
+  }
+  div.progress-bar-containerMobile {
+    display: block;
+  }
+}

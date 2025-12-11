@@ -6,6 +6,7 @@ import TaskItem from "./components/TaskItem";
 import EmptyTask from "./components/EmptyTask";
 import FilterTask from "./components/FilterTask";
 import ProgressBar from "./components/ProgressBar";
+import ConfirmModal from "./components/ConfirmModal";
 
 function App() {
   // Main TaskList
@@ -81,6 +82,15 @@ function App() {
     }
   };
 
+  const [startDeletingProcess, setStartDeletingProcess] = useState(null);
+  const deleteClick_StartDeletingProcess_Handler = (
+    targetTaskId,
+    targetTaskName
+  ) => {
+    startDeletingProcess === null
+      ? setStartDeletingProcess([{ id: targetTaskId, name: targetTaskName }])
+      : setStartDeletingProcess(null);
+  };
   /**
    * DeleteTask Function
    * @param {Int} taskIdToDelete
@@ -93,6 +103,7 @@ function App() {
       );
 
       setTaskList(newTaskList);
+      deleteClick_StartDeletingProcess_Handler();
       return true;
     } else {
       return false;
@@ -179,7 +190,7 @@ function App() {
           <TaskItem
             key={task.id}
             task={task}
-            handleOnTaskDelete={taskList_DeleteTask}
+            handleOnTaskDelete={deleteClick_StartDeletingProcess_Handler}
             handleOnTaskEdit={taskList_EditTask}
             handleOnTaskCheck={taskList_CheckTask}
           />
@@ -197,6 +208,13 @@ function App() {
       <AddTask handleClick_AddTask={taskList_AddTask} />
 
       {taskListDisplay}
+      {startDeletingProcess !== null && (
+        <ConfirmModal
+          taskIdToDelete={startDeletingProcess}
+          onCancel={() => setStartDeletingProcess(null)}
+          onConfirm={taskList_DeleteTask}
+        />
+      )}
     </>
   );
 }

@@ -14,9 +14,9 @@ function TaskItem({
       setTaskName(task.name);
       setTaskEditing(false);
 
-      document.querySelector(".edit-btn").innerHTML = "✏️";
+      document.querySelector(".edit-btn").innerHTML = "✏️ Modifier";
     } else {
-      handleOnTaskDelete(task.id);
+      handleOnTaskDelete(task.id, task.name);
     }
   };
   const handle_OnTaskCheck = () => {
@@ -29,7 +29,7 @@ function TaskItem({
     if (taskEditing) {
       const editingDone = handleOnTaskEdit(taskId, taskName);
       if (editingDone) {
-        event.target.innerHTML = "✏️";
+        event.target.innerHTML = "✏️ Modifier";
         setTaskEditing(false);
       }
     } else {
@@ -74,10 +74,14 @@ function TaskItem({
         data-task={task.id}
         onClick={(event) => taskEditingHandler(event)}
       >
-        ✏️
+        ✏️ Modifier
       </button>
-      <button type="button" onClick={handle_OnTaskDelete}>
-        ✕
+      <button
+        type="button"
+        className="delete-btn"
+        onClick={handle_OnTaskDelete}
+      >
+        ✕ Supprimer
       </button>
     </div>
   );
