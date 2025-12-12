@@ -23,7 +23,7 @@ body {
   border-radius: 12px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   #root {
     max-width: 375px;
     padding: 12px;

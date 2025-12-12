@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./TaskItem.css";
 
 function TaskItem({
@@ -9,16 +9,29 @@ function TaskItem({
 }) {
   const [taskEditing, setTaskEditing] = useState(false);
   const [taskName, setTaskName] = useState(task.name);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
+
+  // Detection ecran avec un evenetListener
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const getEditButtonLabel = () => {
+    if (taskEditing) return isMobile ? "✓" : "✓ Valider"; 
+    return isMobile ? "✏️" : "✏️ Modifier";
+  };
+
   const handle_OnTaskDelete = () => {
     if (taskEditing) {
       setTaskName(task.name);
       setTaskEditing(false);
-
-      document.querySelector(".edit-btn").innerHTML = "✏️ Modifier";
     } else {
       handleOnTaskDelete(task.id, task.name);
     }
   };
+
   const handle_OnTaskCheck = () => {
     handleOnTaskCheck(task.id);
   };
@@ -29,30 +42,13 @@ function TaskItem({
     if (taskEditing) {
       const editingDone = handleOnTaskEdit(taskId, taskName);
       if (editingDone) {
-        event.target.innerHTML = "✏️ Modifier";
         setTaskEditing(false);
       }
     } else {
-      event.target.innerHTML = "✓";
       setTaskEditing(true);
     }
   };
 
-  let taskForm = !taskEditing ? (
-    <label className={!task.status ? `taskDone` : ""}>{taskName}</label>
-  ) : (
-    <input
-      type="text"
-      name=""
-      id=""
-      data-task={task.id}
-      value={taskName}
-      onChange={(event) => setTaskName(event.target.value)}
-      onKeyDown={(event) => {
-        if (event.key === "Enter") taskEditingHandler(event);
-      }}
-    />
-  );
   return (
     <div
       className={taskEditing ? "task-item editing" : "task-item"}
@@ -60,22 +56,34 @@ function TaskItem({
     >
       <input
         type="checkbox"
-        name=""
         id={`taskChk${task.id}`}
         onChange={handle_OnTaskCheck}
         checked={!task.status}
       />
 
-      {taskForm}
+      {!taskEditing ? (
+        <label className={!task.status ? `taskDone` : ""}>{taskName}</label>
+      ) : (
+        <input
+          type="text"
+          data-task={task.id}
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") taskEditingHandler(e);
+          }}
+        />
+      )}
 
       <button
         type="button"
         className="edit-btn"
         data-task={task.id}
-        onClick={(event) => taskEditingHandler(event)}
+        onClick={taskEditingHandler}
       >
-        ✏️ Modifier
+        {getEditButtonLabel()}
       </button>
+
       <button
         type="button"
         className="delete-btn"

@@ -27,7 +27,7 @@ div.filters button.active {
   border: 1px solid #cccccc;
 }
 
-@media screen and (max-width: 475px) {
+@media screen and (max-width: 640px) {
   div.filters button {
     padding: 0px;
     margin-right: 0px;

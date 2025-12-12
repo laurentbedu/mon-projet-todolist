@@ -93,7 +93,7 @@ div.progress-bar-container .bottom {
   margin-top: 10px;
 }
 
-@media screen and (max-width: 475px) {
+@media screen and (max-width: 640px) {
   div.progress-bar-container {
     display: none;
   }
