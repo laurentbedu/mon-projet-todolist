@@ -23,7 +23,7 @@ function App() {
 
   const tasksList_StorageFilter = "TodoListFilter";
   const [currentFilter, setCurrentFilter] = useState(() => {
-    // Search the localStorage for a saved list
+    // Search the localStorage for a saved Filter
     const savedFilter = localStorage.getItem(tasksList_StorageFilter);
     if (savedFilter === null) {
       return "all";
