@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import "./App.css";
+<<<<<<< HEAD
 import AddTask from "./components/AddTask";
 import Header from "./components/Header";
 import TaskItem from "./components/TaskItem";
@@ -217,6 +217,11 @@ function App() {
       )}
     </>
   );
+=======
+
+function App() {
+  return <>Le Projet équipe: TODOLIST</>;
+>>>>>>> d768d2935d2fe5ff918dff8063c7e27f181a5907
 }
 
 export default App;
