@@ -1,0 +1,62 @@
+.confirm-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(104, 104, 104, 0.9);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+  text-align: center;
+}
+
+.confirm-modal .container {
+  margin: 10px;
+  border: 1px solid #0000005d;
+  box-shadow: 0px 0px 10px;
+  border-radius: 10px;
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.confirm-modal .container .alert {
+  border-radius: 100%;
+  padding-bottom: 10px;
+  width: 50px;
+  background-color: #ff000073;
+  margin: 10px auto;
+}
+.confirm-modal .container .alert span {
+  font-size: xx-large;
+}
+.confirm-modal .container h2 {
+  margin: 15px;
+}
+.confirm-modal .container label {
+  font-weight: bold;
+  color: #666666;
+  font-style: italic;
+}
+.confirm-modal .container .btn-container {
+  display: flex;
+}
+.confirm-modal .container .btn-container button {
+  cursor: pointer;
+  font-size: medium;
+  flex: 1;
+  margin: 5px;
+  margin-top: 15px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+}
+.confirm-modal .container .btn-container button.btn-delete {
+  background-color: rgb(255, 72, 72);
+  color: white;
+}
+.confirm-modal .container .btn-container button.btn-delete:hover {
+  background-color: rgb(255, 43, 43);
+}

@@ -4,13 +4,16 @@ import AddTask from "./components/AddTask";
 import Header from "./components/Header";
 import TaskItem from "./components/TaskItem";
 import EmptyTask from "./components/EmptyTask";
+import FilterTask from "./components/FilterTask";
+import ProgressBar from "./components/ProgressBar";
+import ConfirmModal from "./components/ConfirmModal";
 
 function App() {
   // Main TaskList
-  const tasksList_StorageName = "TodoList";
+  const tasksList_StorageList = "TodoList";
   const [tasksList, setTaskList] = useState(() => {
     // Search the localStorage for a saved list
-    const savedList = localStorage.getItem(tasksList_StorageName);
+    const savedList = localStorage.getItem(tasksList_StorageList);
     if (savedList === null) {
       return [];
     } else {
@@ -18,10 +21,33 @@ function App() {
     }
   });
 
-  // useEffect: est un hook, qui ecoute les changements (renders) effectués sur toute la page ou sur une variable useState
+  const tasksList_StorageFilter = "TodoListFilter";
+  const [currentFilter, setCurrentFilter] = useState(() => {
+    // Search the localStorage for a saved list
+    const savedFilter = localStorage.getItem(tasksList_StorageFilter);
+    if (savedFilter === null) {
+      return "all";
+    } else {
+      return savedFilter;
+    }
+  });
+
+  const filteredTasksList = tasksList.filter((task) => {
+    if (currentFilter === "terminée") return !task.status;
+    if (currentFilter === "à faire") return task.status;
+    return true;
+  });
+
+  const totalTasks = tasksList.length;
+  const doneTasks = tasksList.filter((task) => task.status === false).length;
+
+  // REMINDER useEffect: est un hook, qui ecoute les changements (renders) effectués sur toute la page ou sur une variable useState
   useEffect(() => {
-    localStorage.setItem(tasksList_StorageName, JSON.stringify(tasksList));
+    localStorage.setItem(tasksList_StorageList, JSON.stringify(tasksList));
   }, [tasksList]);
+  useEffect(() => {
+    localStorage.setItem(tasksList_StorageFilter, currentFilter);
+  }, [currentFilter]);
   /**
    *
    * @param {Array} list with key "id"
@@ -56,6 +82,15 @@ function App() {
     }
   };
 
+  const [startDeletingProcess, setStartDeletingProcess] = useState(null);
+  const deleteClick_StartDeletingProcess_Handler = (
+    targetTaskId,
+    targetTaskName
+  ) => {
+    startDeletingProcess === null
+      ? setStartDeletingProcess([{ id: targetTaskId, name: targetTaskName }])
+      : setStartDeletingProcess(null);
+  };
   /**
    * DeleteTask Function
    * @param {Int} taskIdToDelete
@@ -66,6 +101,28 @@ function App() {
       const newTaskList = tasksList.filter(
         (task) => task.id !== taskIdToDelete
       );
+
+      setTaskList(newTaskList);
+      deleteClick_StartDeletingProcess_Handler();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  /**
+   * EditTask Function
+   * @param {Int} taskIdToEdit
+   * @returns {boolean}
+   */
+  const taskList_EditTask = (taskIdToEdit, newValue) => {
+    if (tasksList.length !== 0) {
+      const newTaskList = tasksList.map((task) => {
+        if (task.id === taskIdToEdit) {
+          return { ...task, name: newValue };
+        }
+        return task;
+      });
 
       setTaskList(newTaskList);
       return true;
@@ -93,21 +150,70 @@ function App() {
     }
   };
 
-  return (
-    <>
-      <Header />
-      <AddTask handleClick_AddTask={taskList_AddTask} />
-      {tasksList.length === 0 ? (
-        <EmptyTask />
-      ) : (
-        tasksList.map((task) => (
+  const taskList_FlterTasks = (filter) => {
+    setCurrentFilter(filter);
+  };
+
+  // display manager
+  let taskListDisplay = (
+    <EmptyTask
+      title={`Aucune tâche pour le moment`}
+      message={`Ajoutez votre première tâche ci-dessus !`}
+    />
+  );
+
+  if (tasksList.length > 0 && filteredTasksList.length === 0) {
+    taskListDisplay = (
+      <>
+        {console.log("Filter> " + currentFilter)}
+        <FilterTask
+          taskList={tasksList}
+          currentFilter={currentFilter}
+          eventHandler={taskList_FlterTasks}
+        />
+        <EmptyTask
+          title={`Aucune tâche ${currentFilter}`}
+          message="Essayez un autre filtre ci-dessus !"
+        />
+      </>
+    );
+  } else if (filteredTasksList.length > 0) {
+    taskListDisplay = (
+      <>
+        {console.log("Filter> " + currentFilter)}
+        <FilterTask
+          taskList={tasksList}
+          currentFilter={currentFilter}
+          eventHandler={taskList_FlterTasks}
+        />
+        {filteredTasksList.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
-            hundleOnTaskDelete={taskList_DeleteTask}
-            hundleOnTaskCheck={taskList_CheckTask}
+            handleOnTaskDelete={deleteClick_StartDeletingProcess_Handler}
+            handleOnTaskEdit={taskList_EditTask}
+            handleOnTaskCheck={taskList_CheckTask}
           />
-        ))
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Header />
+      {tasksList.length > 0 && (
+        <ProgressBar totalTasks={totalTasks} doneTasks={doneTasks} />
+      )}
+      <AddTask handleClick_AddTask={taskList_AddTask} />
+
+      {taskListDisplay}
+      {startDeletingProcess !== null && (
+        <ConfirmModal
+          taskIdToDelete={startDeletingProcess}
+          onCancel={() => setStartDeletingProcess(null)}
+          onConfirm={taskList_DeleteTask}
+        />
       )}
     </>
   );
