@@ -1,0 +1,103 @@
+div.progress-bar-containerMobile {
+  display: none;
+  border: 1px solid #c4c4c4;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px auto;
+  max-width: 740px;
+  padding: 10px;
+}
+div.progress-bar-containerMobile .top {
+  display: flex;
+}
+div.progress-bar-containerMobile .middle {
+  background-color: #d4d4d4;
+  height: 11px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+div.progress-bar-containerMobile .middle .progressbar-progressline {
+  height: 11px;
+  width: 50%;
+  border-radius: 10px;
+}
+div.progress-bar-containerMobile .bottom {
+  text-align: right;
+  color: #636363;
+  margin-top: 10px;
+}
+div.progress-bar-containerMobile .top .title {
+  margin: 3px 10px;
+  text-align: left;
+  flex: 1;
+}
+div.progress-bar-containerMobile .top .counters {
+  margin: 0 10px;
+  text-align: right;
+  color: #447ffd;
+  font-size: larger;
+  font-weight: bolder;
+  flex: 1;
+}
+div.progress-bar-container {
+  border: 1px solid #c4c4c4;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px auto;
+  max-width: 740px;
+  padding: 10px;
+}
+div.progress-bar-container .top {
+  display: flex;
+}
+div.progress-bar-container .top .title {
+  margin: 3px 10px;
+  text-align: left;
+  flex: 1;
+}
+div.progress-bar-container .top .title2 {
+  margin: 3px 10px;
+  text-align: right;
+  flex: 1;
+}
+div.progress-bar-container .top .counters {
+  margin: 0 10px;
+  text-align: left;
+  color: #447ffd;
+  font-size: larger;
+  font-weight: bolder;
+  flex: 1;
+}
+div.progress-bar-container .top .counters2 {
+  margin: 0 10px;
+  text-align: right;
+  color: #333;
+  font-size: larger;
+  font-weight: bolder;
+  flex: 1;
+}
+div.progress-bar-container .middle {
+  background-color: #d4d4d4;
+  height: 11px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+div.progress-bar-container .middle .progressbar-progressline {
+  height: 11px;
+  width: 99%;
+  border-radius: 10px;
+}
+div.progress-bar-container .bottom {
+  text-align: center;
+  color: #636363;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 640px) {
+  div.progress-bar-container {
+    display: none;
+  }
+  div.progress-bar-containerMobile {
+    display: block;
+  }
+}

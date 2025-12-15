@@ -14,6 +14,7 @@ body {
 #root {
   width: 100%;
   max-width: 1024px;
+  min-width: 375px;
   padding: 16px;
   margin: 10px;
   background: #fff;
@@ -22,7 +23,7 @@ body {
   border-radius: 12px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   #root {
     max-width: 375px;
     padding: 12px;
